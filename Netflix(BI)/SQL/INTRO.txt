@@ -1,0 +1,98 @@
+
+
+server:LAPTOP-IK4HP3LC\SQLEXPRESS01
+
+
+tables: 1)fundamental object of databases
+        2)consist of rows and columns
+        3)rows represent record and column represent attribute
+        4)create, modify, and delete tables using SQL commands like CREATE TABLE, ALTER TABLE, and DROP TABLE
+
+views: 1)virtual tables derived from 1 or more existing tables
+       2)allows to present customized table without altering actual data
+       3)CREATE VIEW employee_view AS
+         SELECT id, CONCAT(first_name, ' ', last_name) AS full_name
+         FROM employees
+         WHERE department = 'IT';
+       4) used to simplify complex query,security and for more user friendlty-format
+
+Stored procedure:1) contains set of sql statement that are stored in db.(similar to function but doesnt return value)
+                 2)encapsulates series of sql command into single unit and can be excecuted with single call
+                 3)used for code modularization,security,  and improve performance by reducing network
+                 DELIMITER //
+CREATE PROCEDURE GetEmployeeCount()
+BEGIN
+    SELECT COUNT(*) FROM employees;
+END //
+DELIMITER ;
+
+
+
+
+function: 1)used for computation and transformation of data and return result
+          2)MySQL provides both built-in functions (like SUM, COUNT, CONCAT, etc.) and user-defined functions
+
+DELIMITER //
+CREATE FUNCTION CalculateTax(salary DECIMAL(10, 2)) RETURNS DECIMAL(10, 2)
+BEGIN
+    DECLARE tax DECIMAL(10, 2);
+    SET tax = salary * 0.2; -- Assuming a 20% tax rate
+    RETURN tax;
+END //
+DELIMITER ;
+
+
+
+delimiter : to seperate sql commands(;)
+            when mutiple statement comes with ;  MySQL would interpret the semicolon within the procedure as the end of the entire statement, so to use mutiple ; in an sql statement withhout error
+DELIMITER //
+CREATE PROCEDURE MyProcedure()
+BEGIN
+    -- SQL statement 1;
+    -- SQL statement 2;
+END //
+DELIMITER ;
+
+
+query:request for data or information.
+      SELECT Queries: These are used to retrieve data from one or more tables. They can include filtering, sorting, joining, and aggregating data.
+UPDATE Queries: These modify existing data in a table by changing values in specific columns.
+INSERT Queries: These add new data to a table by creating new rows.
+DELETE Queries: These remove data from a table by deleting rows that match certain criteria.
+DDL (Data Definition Language) Queries: These are used to define the structure of the database, including creating and altering tables, views, indexes, etc.
+DML (Data Manipulation Language) Queries: These are used to manipulate data within the database, including retrieving, modifying, and deleting data.
+
+
+
+schema/db : 1)a logical container to hold index,tables,stored procedure and functions
+         2)defines the relationships between different objects and provides a blueprint for how data is stored and accessed.
+     Suppose we have a simple database for an online bookstore with two tables: Books and Authors. The schema defines the structure of     these tables, including the columns and their data types.
+
+CREATE TABLE Authors (
+    author_id INT PRIMARY KEY,
+    author_name VARCHAR(50)
+);
+
+CREATE TABLE Books (
+    book_id INT PRIMARY KEY,
+    book_title VARCHAR(100),
+    author_id INT,
+    publication_year INT,
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
+);
+
+Let's say we want to retrieve a list of book titles and their authors for books published after the year 2000. The following query achieves this:
+
+
+SELECT Books.book_title, Authors.author_name
+FROM Books
+JOIN Authors ON Books.author_id = Authors.author_id
+WHERE Books.publication_year > 2000;
+This query uses the SELECT statement to retrieve specific columns from the Books and Authors tables, and it uses the JOIN clause to combine data from both tables based on the author ID. The WHERE clause filters the results to include only books published after the year 2000.
+
+
+
+
+
+
+
